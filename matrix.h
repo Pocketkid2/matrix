@@ -36,10 +36,14 @@ void set(Matrix m, int r, int c, double v);
 
 //	TEST FUNCTIONS	------------------------------------------------
 
+//	print(matrix)
+//		Prints out the matrix to the standard output as a formatted grid
 void print(Matrix m);
 
 //	MATH FUNCTIONS	------------------------------------------------
 
+//	determinant(matrix)
+//		Computes the determinant of a square matrix of any size > 1
 double determinant(Matrix m);
 
 #endif
