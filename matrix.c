@@ -111,7 +111,7 @@ void print(Matrix m)
 
 		// Then print the row
 		for (int j = 1; j <= m->cols; j++) {
-			printf("| %3.2lf ", get(m, i, j));
+			printf("| %6.2lf ", get(m, i, j));
 		}
 		printf("|\n");
 	}
