@@ -11,9 +11,9 @@
 #include "matrix.h"
 
 typedef struct MatrixObj {
-	double *data;
-	uint8_t rows;
-	uint8_t cols;
+	double *data;	// An array of all the floating-point values
+	uint8_t rows;	// The number of rows in the matrix
+	uint8_t cols;	// The number of columns in the matrix
 } MatrixObj;
 
 Matrix createMatrix(int r, int c)
@@ -49,7 +49,8 @@ void freeMatrix(Matrix *m)
 
 bool valid(Matrix m, int r, int c)
 {
-	return (r < 1) || (c < 1) || (r > m->rows) || (c > m->cols);
+	// Checks if the given index is within the proper bounds for the matrix
+	return !((r < 1) || (c < 1) || (r > m->rows) || (c > m->cols));
 }
 
 double get(Matrix m, int r, int c)
@@ -62,8 +63,11 @@ double get(Matrix m, int r, int c)
 		printf("Matrix Error: Calling get() with invalid index values\n");
 		exit(1);
 	}
+	// We expect indexes that start at 1
+	// but the internal representation starts at 0
 	r -= 1;
 	c -= 1;
+	// Compute the offset and then return the value
 	int offset = (r * m->cols) + c;
 	return *(m->data + offset);
 }
@@ -78,8 +82,11 @@ void set(Matrix m, int r, int c, double v)
 		printf("Matrix Error: Calling get() with invalid index values\n");
 		exit(1);
 	}
+	// We expect indexes that start at 1
+	// but the internal representation starts at 0
 	r -= 1;
 	c -= 1;
+	// Compute the offset and assign the value
 	int offset = (r * m->cols) + c;
 	*(m->data + offset) = v;
 }
@@ -90,7 +97,29 @@ void print(Matrix m)
 		printf("Matrix Error: Calling get() on NULL matrix reference\n");
 		exit(1);
 	}
-	printf("Placeholder for print()\n");
+
+	// Compute character width for headers
+	int hlen = (9 * m->cols) + 1;
+
+	// Loop through each row
+	for (int i = 1; i <= m->rows; i++) {
+		// First print the header
+		for (int k = 0; k < hlen; k++) {
+			printf("-");
+		}
+		printf("\n");
+
+		// Then print the row
+		for (int j = 1; j <= m->cols; j++) {
+			printf("| %3.2lf ", get(m, i, j));
+		}
+		printf("|\n");
+	}
+	// Print the last header
+	for (int k = 0; k < hlen; k++) {
+		printf("-");
+	}
+	printf("\n");
 }
 
 double determinant(Matrix m)
