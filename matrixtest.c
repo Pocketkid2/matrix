@@ -30,4 +30,17 @@ int main()
 
 	print(a);
 	print(b);
+
+	// Test the matrix of minors
+	Matrix n = matrixOfMinors(a, 1, 1);
+
+	print(n);
+
+	n = matrixOfMinors(a, 2, 2);
+
+	print(n);
+
+	n = matrixOfMinors(a, 3, 3);
+
+	print(n);
 }

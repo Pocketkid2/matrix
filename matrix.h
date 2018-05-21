@@ -42,6 +42,10 @@ void print(Matrix m);
 
 //	MATH FUNCTIONS	------------------------------------------------
 
+// matrixOfMinors(matrix, row, column)
+//		Returns a new matrix of minors with the given row and column
+Matrix matrixOfMinors(Matrix m, int row, int column);
+
 //	determinant(matrix)
 //		Computes the determinant of a square matrix of any size > 1
 double determinant(Matrix m);

@@ -122,6 +122,56 @@ void print(Matrix m)
 	printf("\n");
 }
 
+Matrix matrixOfMinors(Matrix m, int row, int column)
+{
+	if (m->rows > 1 && m->cols > 1) {
+		// The new matrix
+		Matrix n = createMatrix(m->rows - 1, m->cols - 1);
+
+		// The old matrix indexes
+		int a = 1, b;
+
+		// The new matrix indexes
+		int i = 1, j;
+
+		// Nested loop
+		while (i <= n->rows) {
+
+			// If the row matches
+			if (row == a) {
+				// Only increment the old index
+				a++;
+				continue;
+			}
+
+			j = 1;
+			b = 1;
+			while (j <= n->cols) {
+
+				// If the column matches
+				if (column == b) {
+					// Only increment the old index
+					b++;
+					continue;
+				}
+
+				// Copy
+				set(n, i, j, get(m, a, b));
+
+				j++;
+				b++;
+			}
+
+			i++;
+			a++;
+		}
+
+		return n;
+	} else {
+		return NULL;
+	}
+}
+
 double determinant(Matrix m)
 {
 	printf("Placeholder for determinant()\n");
