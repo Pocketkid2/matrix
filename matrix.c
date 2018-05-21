@@ -226,7 +226,9 @@ double determinant(Matrix m)
 				// Grab top-row value
 				double a = get(m, 1, i);
 				// Grab determinant of minor matrix
-				double b = determinant(matrixOfMinors(m, 1, i));
+				Matrix n = matrixOfMinors(m, 1, i);
+				double b = determinant(n);
+				freeMatrix(&n);
 				// Grab negative modifier (-1 ^ row)
 				double c = (i % 2) ? (1.0) : (-1.0);
 
@@ -241,4 +243,101 @@ double determinant(Matrix m)
 		printf("Matrix Error: Calling determinant() on a non-square matrix\n");
 		exit(1);
 	}
+}
+
+Matrix add(Matrix a, Matrix b)
+{
+	if (a == NULL || b == NULL) {
+		printf("Matrix Error: Calling add() on NULL matrix reference\n");
+		exit(1);
+	}
+
+	if (a->rows != b->rows || a->cols != b->cols) {
+		printf("Matrix Error: Calling add() on unequal-size matrixes\n");
+		exit(1);
+	}
+
+	Matrix m = createMatrix(a->rows, a->cols);
+
+	for (int i = 1; i <= a->rows; i++) {
+		for (int j = 1; j <= a->cols; j++) {
+			set(m, i, j, get(a, i, j) + get(b, i, j));
+		}
+	}
+
+	return m;
+}
+
+Matrix subtract(Matrix a, Matrix b)
+{
+	if (a == NULL || b == NULL) {
+		printf("Matrix Error: Calling subtract() on NULL matrix reference\n");
+		exit(1);
+	}
+
+	if (a->rows != b->rows || a->cols != b->cols) {
+		printf("Matrix Error: Calling add() on unequal-size matrixes\n");
+		exit(1);
+	}
+
+	Matrix m = createMatrix(a->rows, a->cols);
+
+	for (int i = 1; i <= a->rows; i++) {
+		for (int j = 1; j <= a->cols; j++) {
+			set(m, i, j, get(a, i, j) - get(b, i, j));
+		}
+	}
+
+	return m;
+}
+
+Matrix scale(Matrix m, double s)
+{
+	if (m == NULL) {
+		printf("Matrix Error: Calling scale() on NULL matrix reference\n");
+		exit(1);
+	}
+
+	Matrix n = createMatrix(m->rows, m->cols);
+
+	for (int i = 1; i <= m->rows; i++) {
+		for (int j = 1; j <= m->cols; j++) {
+			set(n, i, j, get(m, i, j) * s);
+		}
+	}
+
+	return n;
+}
+
+Matrix multiply(Matrix a, Matrix b)
+{
+	if (a == NULL || b == NULL) {
+		printf("Matrix Error: Calling multiply() on NULL matrix reference\n");
+		exit(1);
+	}
+
+	if (a->cols != b->rows) {
+		printf("Matrix Error: Calling multiply() on matrixes with mismatched sizes\n");
+		exit(1);
+	}
+
+	// The matching size, or vector length for dot product
+	int vl = a->cols;
+
+	Matrix m = createMatrix(a->rows, b->cols);
+
+	// Loop through values in result matrix
+	for (int i = 1; i <= a->rows; i++) {
+		for (int j = 1; j <= b->cols; j++) {
+			// Find the value
+			double sum = 0.0;
+			for (int k = 1; k <= vl; k++) {
+				sum += get(a, i, k) * get(b, k, j);
+			}
+			// Store the result
+			set(m, i, j, sum);
+		}
+	}
+
+	return m;
 }

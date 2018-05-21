@@ -41,10 +41,12 @@ printf("TESTING MATRIX OF MINORS\n");
 
 	print(n);
 
+	freeMatrix(&n);
 	n = matrixOfMinors(a, 2, 2);
 
 	print(n);
 
+	freeMatrix(&n);
 	n = matrixOfMinors(a, 3, 3);
 
 	print(n);
@@ -72,4 +74,34 @@ printf("TESTING MATRIX OF MINORS\n");
 	set(c, 3, 3, 9);
 
 	printf("A = C: %s\n", equals(a, c) ? "true" : "false");
+
+	printf("TESTING MATRIX ADD/SUBTRACT\n");
+
+	Matrix d = add(a, c);
+
+	print(d);
+
+	Matrix e = subtract(a, c);
+
+	print(e);
+
+	printf("TESTING MATRIX MULTIPLIES\n");
+
+	Matrix f = scale(a, 3.0);
+
+	print(f);
+
+	Matrix g = multiply(a, c);
+
+	print(g);
+
+	freeMatrix(&a);
+	freeMatrix(&b);
+	freeMatrix(&c);
+	freeMatrix(&d);
+	freeMatrix(&e);
+	freeMatrix(&f);
+	freeMatrix(&g);
+	freeMatrix(&n);
+
 }

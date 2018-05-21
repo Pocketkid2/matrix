@@ -56,4 +56,20 @@ Matrix matrixOfMinors(Matrix m, int row, int column);
 //		Computes the determinant of a square matrix of any size > 1
 double determinant(Matrix m);
 
+//	add(a, b)
+//		Adds two matrixes together and returns the result
+Matrix add(Matrix a, Matrix b);
+
+//	subtract(a, b)
+//		Subtracts matrix b from matrix a and returns the result
+Matrix subtract(Matrix a, Matrix b);
+
+//	scale(m, s)
+//		Scalar multiplies the matrix m by s
+Matrix scale(Matrix m, double s);
+
+//	multiply(a, b)
+//		Mutliplies matrix a with matrix b
+Matrix multiply(Matrix a, Matrix b);
+
 #endif
