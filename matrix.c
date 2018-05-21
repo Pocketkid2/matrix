@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdbool.h>
 
 #include "matrix.h"
 
@@ -122,8 +121,38 @@ void print(Matrix m)
 	printf("\n");
 }
 
-Matrix matrixOfMinors(Matrix m, int row, int column)
+bool equals(Matrix a, Matrix b)
 {
+	// Check the sizes
+	if ((a->rows != b->rows) || (a->cols != b->cols)) {
+		return false;
+	}
+
+	// Check each value
+	for (int i = 1; i <= a->rows; i++) {
+		for (int j = 1; j <= b->cols; j++) {
+			if (get(a, i, j) != get(b, i, j)) {
+				return false;
+			}
+		}
+	} 
+
+	// Otherwise must be equal
+	return true;
+}
+
+Matrix matrixOfMinors(Matrix m, int r, int c)
+{
+	if (m == NULL) {
+		printf("Matrix Error: Calling matrixOfMinors() on NULL matrix reference\n");
+		exit(1);
+	}
+	if (!valid(m, r, c)) {
+		printf("Matrix Error: Calling matrixOfMinors() with invalid index values\n");
+		exit(1);
+	}
+
+	// Check that the size >= 2x2
 	if (m->rows > 1 && m->cols > 1) {
 		// The new matrix
 		Matrix n = createMatrix(m->rows - 1, m->cols - 1);
@@ -138,7 +167,7 @@ Matrix matrixOfMinors(Matrix m, int row, int column)
 		while (i <= n->rows) {
 
 			// If the row matches
-			if (row == a) {
+			if (r == a) {
 				// Only increment the old index
 				a++;
 				continue;
@@ -149,7 +178,7 @@ Matrix matrixOfMinors(Matrix m, int row, int column)
 			while (j <= n->cols) {
 
 				// If the column matches
-				if (column == b) {
+				if (c == b) {
 					// Only increment the old index
 					b++;
 					continue;
@@ -168,12 +197,48 @@ Matrix matrixOfMinors(Matrix m, int row, int column)
 
 		return n;
 	} else {
-		return NULL;
+		printf("Matrix Error: Calling matrixOfMinors() with matrix smaller than 2x2 not allowed\n");
+		exit(1);
 	}
 }
 
 double determinant(Matrix m)
 {
-	printf("Placeholder for determinant()\n");
-	return 0.0;
+	if (m == NULL) {
+		printf("Matrix Error: Calling determinant() on NULL matrix reference\n");
+		exit(1);
+	}
+
+	// Check that the matrix is square
+	if (m->rows == m->cols) {
+
+		// Move to single-variable
+		int size = m->rows;
+
+		// Recursive cases
+		if (size == 1) {
+			// If 1x1 simply return the value
+			return get(m, 1, 1);
+		} else {
+			// Otherwise return the matrixOfMinors determinant sum
+			double sum = 0.0;
+			for (int i = 1; i <= size; i++) {
+				// Grab top-row value
+				double a = get(m, 1, i);
+				// Grab determinant of minor matrix
+				double b = determinant(matrixOfMinors(m, 1, i));
+				// Grab negative modifier (-1 ^ row)
+				double c = (i % 2) ? (1.0) : (-1.0);
+
+				// Multiply the values and add in
+				sum += (a * b * c);
+			}
+			// We have the final value so return it
+			return sum;
+		}
+
+	} else {
+		printf("Matrix Error: Calling determinant() on a non-square matrix\n");
+		exit(1);
+	}
 }

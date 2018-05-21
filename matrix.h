@@ -6,6 +6,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <stdbool.h>
+
 //	TYPE DEFINITIONS	--------------------------------------------
 
 typedef struct MatrixObj *Matrix;
@@ -39,6 +41,10 @@ void set(Matrix m, int r, int c, double v);
 //	print(matrix)
 //		Prints out the matrix to the standard output as a formatted grid
 void print(Matrix m);
+
+// 	equals(matrix, matrix)
+//		Returns true if the two matrixes contain the same data
+bool equals(Matrix a, Matrix b);
 
 //	MATH FUNCTIONS	------------------------------------------------
 
