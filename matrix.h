@@ -42,7 +42,7 @@ void set(Matrix m, int r, int c, double v);
 //		Prints out the matrix to the standard output as a formatted grid
 void print(Matrix m);
 
-// 	equals(matrix, matrix)
+// 	equals(a, b)
 //		Returns true if the two matrixes contain the same data
 bool equals(Matrix a, Matrix b);
 
